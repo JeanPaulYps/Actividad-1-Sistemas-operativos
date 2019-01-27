@@ -20,8 +20,10 @@ class menu ():
         self.imprimirOpciones()
 
         entrada = int(input("Opcion: "))
-        while (entrada > self.numeroOpciones or entrada <= 0):
-            entrada = int(input())
+        while (entrada <= 0 or entrada > self.numeroOpciones):
+            entrada = int(input("Opcion: "))
+        
+        print()       
         return entrada
 
     def obtenerOpciones (self):
@@ -29,7 +31,3 @@ class menu ():
 
     def obtenerDescripcion (self):
         return self.descripcion
-
-    
-    
-    
