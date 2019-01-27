@@ -1,17 +1,25 @@
 class menu ():
 
     #Opciones es una lista que contiene otros menus
-    def __init__ (self, mensaje,numeroOpciones, opciones, descripcion):
+    def __init__ (self, mensaje,opciones, descripcion):
         self.mensaje = mensaje
-        self.numeroOpciones = numeroOpciones
+        self.numeroOpciones = len(opciones)
         self.opciones = opciones
         self.descripcion = descripcion
 
     def obtenerMensaje (self):
         return self.mensaje
 
+    def imprimirOpciones (self):
+        for indice, objeto in enumerate(self.opciones):
+            print("\t" + str(indice + 1) + ".", objeto.obtenerDescripcion())
+        print()
+    
     def obtenerEntrada (self):
-        entrada = int(input())
+        print(self.obtenerMensaje())
+        self.imprimirOpciones()
+
+        entrada = int(input("Opcion: "))
         while (entrada > self.numeroOpciones or entrada <= 0):
             entrada = int(input())
         return entrada
@@ -22,5 +30,6 @@ class menu ():
     def obtenerDescripcion (self):
         return self.descripcion
 
-
+    
+    
     
