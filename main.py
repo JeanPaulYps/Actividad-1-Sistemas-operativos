@@ -72,7 +72,32 @@ def controladorMenuPermisos():
 def controladorMenuProcesos():
     opcion = menuProcesos.obtenerEntrada()
 
+
+ 
+def cambiarPermisos (archivo,codigo):
+    try:
+        os.chmod(archivo,int(codigo,8))
+        print("Permisos cambiados")
+    except OSError:
+        print("ERROR")
+
+def CrearProceso ():
+    while True:
+        nuevoProceso = os.fork()
+        if nuevoProceso == 0:
+            os._exit(0)
+        else:
+            pids = (os.getpid(), nuevoProceso)
+            print("padre:", pids[0], "hijo:", pids[1])
+        print("nuevo hijo",nuevoProceso)
+        eleccion = int(input("1.Para un nuevo hijo\n2.Para salir\n"))
+        if eleccion != 1:
+            break
+
+
+
 if __name__ == "__main__": 
+    CrearProceso()
     controladorMenuPrincipal()
 
 

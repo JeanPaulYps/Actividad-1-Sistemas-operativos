@@ -3,8 +3,8 @@ Se va a desarrollar la actividad de S.O. de 2018-II
 
 Se necesita crear un programa por consola que permita:
 - [x] Crear enlaces simbólicos y físicos de un objeto elegido
-- [ ] Modificar permisos
-- [ ] Crear procesos padres, hijos, eliminar padres e hijos 
+- [x] Modificar permisos
+- [x] Crear procesos padres, hijos, eliminar padres e hijos 
 
 Algunas recomendaciones para iniciar el proyecto:
 * Manejar los directorios desde una clase
