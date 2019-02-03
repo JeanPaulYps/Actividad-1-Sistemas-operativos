@@ -67,7 +67,24 @@ def controladorMenuEnlace ():
         pass
 
 def controladorMenuPermisos():
-    opcion = menuPermisos.obtenerEntrada()
+    archivo = str(input("Introduce la ruta del archivo: "))
+    permisos = pedirPermisos()
+    cambiarPermisos(archivo, permisos)
+
+def pedirPermisos ():
+    tiposDeUsurios = ["otros", "grupo", "usuario"]
+    resultado = ""
+    for entrada in tiposDeUsurios:
+        try:
+            permiso = int( input(mensajes["mensajePermisos"].format(entrada) + "Opcion: ") )
+            while permiso < 0 or permiso > 7:
+                permiso = int( input(mensajes["mensajePermisos"].format(entrada) + "Opcion: " ) )
+            resultado += str(permiso)
+        except ValueError:
+            controladorMenuPrincipal()
+    return "0o" + resultado
+    
+
 
 def controladorMenuProcesos():
     opcion = menuProcesos.obtenerEntrada()
@@ -97,7 +114,6 @@ def CrearProceso ():
 
 
 if __name__ == "__main__": 
-    CrearProceso()
     controladorMenuPrincipal()
 
 
