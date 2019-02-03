@@ -87,7 +87,7 @@ def pedirPermisos ():
 
 
 def controladorMenuProcesos():
-    opcion = menuProcesos.obtenerEntrada()
+    crearProceso()
 
 
  
@@ -98,7 +98,7 @@ def cambiarPermisos (archivo,codigo):
     except OSError:
         print("ERROR")
 
-def CrearProceso ():
+def crearProceso ():
     while True:
         nuevoProceso = os.fork()
         if nuevoProceso == 0:
