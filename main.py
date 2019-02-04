@@ -1,4 +1,4 @@
-import os
+import os,signal
 from menu import menu
 from navegador import navegador
 from mensajes import mensajes
@@ -83,35 +83,41 @@ def pedirPermisos ():
         except ValueError:
             controladorMenuPrincipal()
     return "0o" + resultado
-    
-
-
-def controladorMenuProcesos():
-    crearProceso()
-
-
- 
+     
 def cambiarPermisos (archivo,codigo):
     try:
         os.chmod(archivo,int(codigo,8))
-        print("Permisos cambiados")
+        print("\nPermisos cambiados\n")
     except OSError:
-        print("ERROR")
+        print("ERROR\n")
+
+def controladorMenuProcesos():
+    proceso = crearProceso()
+    eleccion = 0
+    while eleccion != 4:
+        eleccion = int(input("1.Para un nuevo hijo\n2.Para salir\n\nOpcion:"))
+        if eleccion == 1:
+            crearProceso()
+        else:
+            print()
+            break
+            
 
 def crearProceso ():
-    while True:
-        nuevoProceso = os.fork()
-        if nuevoProceso == 0:
-            os._exit(0)
-        else:
-            pids = (os.getpid(), nuevoProceso)
-            print("padre:", pids[0], "hijo:", pids[1])
-        print("nuevo hijo",nuevoProceso)
-        eleccion = int(input("1.Para un nuevo hijo\n2.Para salir\n"))
-        if eleccion != 1:
-            break
+    nuevoProceso = os.fork()
+    if nuevoProceso == 0:
+        os._exit(0)
+    else:
+        pids = (os.getpid(), nuevoProceso)
+        print("padre:", pids[0], "hijo:", pids[1])
+    print("nuevo hijo",nuevoProceso,"\n")
+    return nuevoProceso
 
+def matarProceso (pid):
+    os.kill(pid, signal.SIGKILL)
+       
 
+        
 
 if __name__ == "__main__": 
     controladorMenuPrincipal()
