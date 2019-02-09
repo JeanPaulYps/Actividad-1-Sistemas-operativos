@@ -4,6 +4,8 @@ from navegador import navegador
 from mensajes import mensajes
 from descripciones import descripcion
 from multiprocessing import Process,Queue
+import funcionalidades
+
 
 menuSalir = menu("", [], descripcion["terminar"])
 menuVolver = menu("", [], descripcion["volver"])
@@ -14,12 +16,9 @@ menuEnlace = menu(mensajes["elegirOpciones"],
                     [menuCrearEnlaceSimbolico,menuCrearEnlaceFisico,menuVolver],
                     descripcion["menuEnlace"] )
 
-
 menuPermisos = menu(mensajes["menuPermisos"], [menuVolver], descripcion["menuPermisos"])
 
-
 menuProcesos = menu(mensajes["elegirOpciones"], [menuVolver], descripcion["menuProcesos"])
-
 
 menuPrincipal = menu(mensajes["menuPrincipal"] +  mensajes["elegirOpciones"], 
                     [menuEnlace,menuPermisos,menuProcesos,menuSalir],"")
@@ -38,97 +37,61 @@ def controladorMenuPrincipal ():
         elif (opcion == 4):
             pass
 
-def crearEnlaceSimbolico (archivo1, archivo2):
-    try:
-        os.symlink(archivo1,archivo2)
-        print("\nEnlace creado \n")
-    except OSError:
-        print("\nERROR \n")
-        controladorMenuPrincipal()
-
-def crearEnlaceFisico (archivo1, archivo2):
-    try:
-        os.link(archivo1,archivo2)
-        print("\nEnlace creado \n")
-    except OSError:
-        print("\nERROR \n")
-        controladorMenuPrincipal()
 
 def controladorMenuEnlace ():
     opcion = menuEnlace.obtenerEntrada()
     if (opcion == 1):
-        archivo1 = str(input("Introduce la ruta del archivo: "))
-        archivo2 = str(input("Introduce la ruta en donde quieres crear el enlace: "))
-        crearEnlaceSimbolico(archivo1,archivo2)
+        archivo1 = str(input(mensajes["rutaArchivoOrigen"]))
+        archivo2 = str(input(mensajes["rutaArchivoDestino"]))
+        funcionalidades.crearEnlaceSimbolico(archivo1,archivo2)
     elif opcion == 2:
-        archivo1 = str(input("Introduce la ruta del archivo: "))
-        archivo2 = str(input("Introduce la ruta en donde quieres crear el enlace: "))
-        crearEnlaceFisico(archivo1,archivo2)
+        archivo1 = str(input(mensajes["rutaArchivoOrigen"]))
+        archivo2 = str(input(mensajes["rutaArchivoDestino"]))
+        funcionalidades.crearEnlaceFisico(archivo1,archivo2)
     elif opcion == 3:
         pass
 
 def controladorMenuPermisos():
-    archivo = str(input("Introduce la ruta del archivo: "))
+    archivo = str(input(mensajes["rutaArchivoPermisos"]))
     permisos = pedirPermisos()
-    cambiarPermisos(archivo, permisos)
+    funcionalidades.cambiarPermisos(archivo, permisos)
 
 def pedirPermisos ():
-    tiposDeUsurios = ["otros", "grupo", "usuario"]
+    tiposDeUsuarios = ["otros", "grupo", "usuario"]
     resultado = ""
-    for entrada in tiposDeUsurios:
-        try:
-            permiso = int( input(mensajes["mensajePermisos"].format(entrada) + "Opcion: ") )
-            while permiso < 0 or permiso > 7:
-                permiso = int( input(mensajes["mensajePermisos"].format(entrada) + "Opcion: " ) )
-            resultado += str(permiso)
-        except ValueError:
-            controladorMenuPrincipal()
+    for tiposDeUsuario in tiposDeUsuarios:
+        permiso = -1
+        while permiso < 0 or permiso > 7:
+            try:
+                permiso = int(input(mensajes["mensajePermisos"].format(tiposDeUsuario) + "Opcion: " ) )
+            except ValueError:
+                print("ERROR")
+        resultado += str(permiso)
     return "0o" + resultado
-     
-def cambiarPermisos (archivo,codigo):
-    try:
-        os.chmod(archivo,int(codigo,8))
-        print("\nPermisos cambiados\n")
-    except OSError:
-        print("ERROR\n")
 
 def controladorMenuProcesos():
-    p = crearProceso()
+    procesos = []
     eleccion = 0
-    procesos = [p]
-    
     while eleccion != 4:
-        eleccion = int(input("1.Para un nuevo hijo\n2.Para matar hijo\n3.Para salir\n\nOpcion:"))
+        eleccion = int(input(mensajes["eleccionProcesos"]))
         if eleccion == 1:
-            p = crearProceso()
+            p = funcionalidades.crearProceso()
             procesos.append(p)
-            print("El ID del proceso es:", p)
+            print(mensajes["procesosExistentes"], procesos,"\n\n")
         elif eleccion == 2:
-            p = procesos.pop()
-            print("El ID del proceso es:", p)
-            matarProceso(p)
+            if procesos:
+                p = procesos.pop()
+                print(mensajes["IDProceso"], p)
+                print(mensajes["procesosExistentes"], procesos,"\n\n")
+                funcionalidades.matarProceso(p)
+            else:
+                print(mensajes["ErrorDeListaVacia"])
         else:
             print()
             break
             
 
-def crearProceso ():
-    nuevoProceso = os.fork()
-    if nuevoProceso == 0:
-        os._exit(0)
-    else:
-        pids = (os.getpid(), nuevoProceso)
-        print("padre:", pids[0], "hijo:", pids[1])
-    print("nuevo hijo",nuevoProceso,"\n")
-    return nuevoProceso
-
-def matarProceso (pid):
-    os.waitpid(pid,0)
-       
-
         
 
 if __name__ == "__main__": 
     controladorMenuPrincipal()
-
-

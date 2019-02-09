@@ -1,6 +1,6 @@
 import os
 
-class navegador:
+class navegador ():
     def obtenerDirectorio (self):
         return os.getcwd()
     def obtenerElementos (self):
