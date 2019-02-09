@@ -3,6 +3,7 @@ from menu import menu
 from navegador import navegador
 from mensajes import mensajes
 from descripciones import descripcion
+from multiprocessing import Process,Queue
 
 menuSalir = menu("", [], descripcion["terminar"])
 menuVolver = menu("", [], descripcion["volver"])
@@ -92,12 +93,20 @@ def cambiarPermisos (archivo,codigo):
         print("ERROR\n")
 
 def controladorMenuProcesos():
-    proceso = crearProceso()
+    p = crearProceso()
     eleccion = 0
+    procesos = [p]
+    
     while eleccion != 4:
-        eleccion = int(input("1.Para un nuevo hijo\n2.Para salir\n\nOpcion:"))
+        eleccion = int(input("1.Para un nuevo hijo\n2.Para matar hijo\n3.Para salir\n\nOpcion:"))
         if eleccion == 1:
-            crearProceso()
+            p = crearProceso()
+            procesos.append(p)
+            print("El ID del proceso es:", p)
+        elif eleccion == 2:
+            p = procesos.pop()
+            print("El ID del proceso es:", p)
+            matarProceso(p)
         else:
             print()
             break
@@ -114,7 +123,7 @@ def crearProceso ():
     return nuevoProceso
 
 def matarProceso (pid):
-    os.kill(pid, signal.SIGKILL)
+    os.waitpid(pid,0)
        
 
         
