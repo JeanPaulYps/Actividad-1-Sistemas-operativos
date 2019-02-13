@@ -70,26 +70,7 @@ def pedirPermisos ():
     return "0o" + resultado
 
 def controladorMenuProcesos():
-    procesos = []
-    eleccion = 0
-    while eleccion != 4:
-        eleccion = int(input(mensajes["eleccionProcesos"]))
-        if eleccion == 1:
-            p = funcionalidades.crearProceso()
-            procesos.append(p)
-            print(mensajes["procesosExistentes"], procesos,"\n\n")
-        elif eleccion == 2:
-            if procesos:
-                p = procesos.pop()
-                print(mensajes["IDProceso"], p)
-                print(mensajes["procesosExistentes"], procesos,"\n\n")
-                funcionalidades.matarProceso(p)
-            else:
-                print(mensajes["ErrorDeListaVacia"])
-        else:
-            print()
-            break
-            
+    funcionalidades.crearProcesos()
 
         
 
