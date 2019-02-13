@@ -13,9 +13,15 @@ mensajes["mensajePermisos"] = """\nCambia los permisos de {}:
     7. Para agregar permisos de lectura, escritura y ejecucion\n\n"""
 mensajes["rutaArchivoOrigen"] = "Introduce la ruta del archivo de origen: "
 mensajes["rutaArchivoDestino"] = "Introduce la ruta de destino del enlace: "
-mensajes["rutaArchivoPermisos"] = "Introduce la ruta del arcivo al que quieres cambiar permisos: "
+mensajes["rutaArchivoPermisos"] = "Introduce la ruta del archivo al que quieres cambiar permisos: "
 mensajes["eleccionProcesos"] = mensajes["elegirOpciones"] + "\n\t1.Para un \
 nuevo proceso hijo\n\t2.Para acabar un proceso hijo\n\t3.Para salir\n\nOpcion:"
 mensajes["procesosExistentes"] = "Existen los siguientes procesos: "
 mensajes["IDProceso"] = "El ID del proceso borrado es: "
 mensajes["ErrorDeListaVacia"] = "\nLista vacia, no se pueden matar procesos\n"
+mensajes["NotaProcesos"] = "NOTA: En esta seccion para elegir el \
+archivo a donde del que se crea el enlace debe ser con la ruta absoluta.\n\n"
+mensajes["NotaPermisos"] = "NOTA: En esta seccion para elegir el \
+archivo al que se cambian los permisos debe ser con la ruta absoluta.\n\n"
+mensajes["OpcionesDeProcesos"] = "Oprima:\n\t1.Para crear procesos padres\n\t\
+    2.Para crear procesos hijos\n\t3.Para retroceder o terminar proceso padre\n\nOpcion: "

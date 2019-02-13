@@ -12,7 +12,7 @@ menuVolver = menu("", [], descripcion["volver"])
 
 menuCrearEnlaceSimbolico = menu("", [], descripcion["menuCrearEnlaceSimbolico"])
 menuCrearEnlaceFisico = menu("", [], descripcion["crearEnlaceFisico"])
-menuEnlace = menu(mensajes["elegirOpciones"], 
+menuEnlace = menu(mensajes["NotaProcesos"] +  mensajes["elegirOpciones"], 
                     [menuCrearEnlaceSimbolico,menuCrearEnlaceFisico,menuVolver],
                     descripcion["menuEnlace"] )
 
@@ -52,7 +52,7 @@ def controladorMenuEnlace ():
         pass
 
 def controladorMenuPermisos():
-    archivo = str(input(mensajes["rutaArchivoPermisos"]))
+    archivo = str(input(mensajes["NotaPermisos"] + mensajes["rutaArchivoPermisos"]))
     permisos = pedirPermisos()
     funcionalidades.cambiarPermisos(archivo, permisos)
 
@@ -70,7 +70,7 @@ def pedirPermisos ():
     return "0o" + resultado
 
 def controladorMenuProcesos():
-    funcionalidades.crearProcesos()
+    funcionalidades.crearProcesos([])
 
         
 

@@ -21,35 +21,37 @@ def cambiarPermisos (archivo,codigo):
     except OSError:
         print("ERROR archivo no encontrado\n")
 
-def crearProcesos():
+def crearProcesos(lista):
     entrada = 0
-    while entrada != 3:
-        print("PID: {}, PPID: {}".format(os.getpid(), os.getppid()))
-        entrada = int(input("Oprima:\n\t1.Para crear procesos padres\n\t2.Para crear procesos hijos\n\t3.Para retroceder o terminar proceso padre\n\nOpcion: "))
+    while entrada != 2:
+        print("La lista de procesos contiene los siguientes elementos:",lista,"\n")
+        print(mensajeProcesos["FormatoMostrarProcesos"].format(os.getpid(), os.getppid()))
+        entrada = int(input(mensajeProcesos["ElegirOpciones"] ))
         if entrada == 1:
-            crearProcesosPadres()
-        elif entrada == 2:
-            crearProcesosHijos()
-        elif entrada == 3: 
-            pass
+            crearProcesosHijos(lista)
+        elif entrada == 2: 
+            if lista:
+                lista.pop()
+            
 
-def crearProcesosPadres():
+def crearProcesosHijos(lista):
     pid = os.fork()
     if pid == 0:
-        print("Proceso Creado")
-        crearProcesos()
-        print("Proceso padre ha terminado")
+        proceso = os.getpid()
+        print(mensajeProcesos["ProcesoCreado"].format(proceso))
+        lista.append(proceso)
+        crearProcesos(lista)
+        print(mensajeProcesos["FinProcesoHijo"].format(proceso) )
         os._exit(0)
     else:
         os.wait()
 
-def crearProcesosHijos():
-    pid = os.fork()
-    if pid == 0:
-        os._exit(0)
-    else:
-        print("PID: {}, PPID: {}".format(pid, os.getppid()))
-        input("El proceso se terminara despues del mensaje, presione par continuar ")
-        print("Proceso", pid,"ha terminado")
-        os.wait()
-       
+
+        
+
+mensajeProcesos = {}
+mensajeProcesos["ElegirOpciones"] = "Oprima:\n\t1.Para crear procesos hijos\n\
+    \t2.Para retroceder o terminar proceso hijo\n\nOpcion: "
+mensajeProcesos["FormatoMostrarProcesos"] = "PID: {}, PPID: {}\n"
+mensajeProcesos["ProcesoCreado"] = "\nProceso {} hijo creado exitosamente\n"
+mensajeProcesos["FinProcesoHijo"] = "Proceso {} hijo ha terminado\n"
